@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h3>listing details</h3>
+
+</div>
+            < class="card col-6 offset-2" style="width: 18rem;">
+                <img src="<%=listing.image.url %>" class="card-img-top show-img" alt="listing-image ">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text"><b><%=listing.title%></b></p>
+                  <br>
+
+<i>owned by <%= listing.owner.username %></i>
+<br>
+
+                  <%=listing.description %>
+                  <br>
+
+
+                  &#8377; <%= listing.price.toLocaleString('en-IN') %>
+                  <br>
+                  <%=listing.location %>
+                  <br>
+                  <%=listing.country %>
+                  <br>
+<% if (currUser && currUser._id.equals(listing.owner)) { %>
+                  <a href="/listings/<%= listing._id %>/edit" class="btn-btn-dark">edit this listing</a>
+                  <% } %>
+                </div>
+              </div>
+              <% if (currUser && currUser._id.equals(listing.owner)) { %>      
+ <form method="POST" action="/listings/<%=listing._id%>?_method=delete" novalidate class="needs-validation">
+    <button>delete the listing</button>
+ </form>
+ <% } %>
+
+</body>
+<% if(currUser) { %>
+ <form class="mb-3" action="/listings/<%= listing.id %>/reviews" method="POST">
+    <div class="mb-3 mt-3">
+        <h3><%=review.author.username %></h3>
+        <label for="rating" class="form-label">Rating</label>
+        <input type="range" min="1" max="5" id="rating" class="form-range" name="review[rating]">
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="comments" class="form-label">Comment</label>
+        <textarea name="review[comment]" id="review" cols="30" rows="10" class="form-control" ></textarea>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+<%}%>
+<h4>All reviews</h4>
+<% for(review of listing.reviews) { %> 
+  <ul>
+    <li><%= review.comment %></li>
+    <li><%= review.rating %></li>
+
+  </ul>
+    <%}%>
+
+
+    <div class="container mt-4">
+        <div class="row">
+            <% for (let review of listing.reviews) { %> 
+                <div class="col-6 mb-3"> <!-- Ensures 2 cards per row -->
+                    <div class="card shadow-lg rounded">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Samradhi</h5>
+                            <p class="card-text"><%= review.comment %></p>
+                            <p class="card-text"><strong>Rating:</strong> <%= review.rating %></p>
+                            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=delete" method="post">
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    
+
+
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<% layout("/layouts/boilerplate.ejs") -%>
+<%= success %>
+
+<body>
+    <!-- Form to create new listing -->
+    <form method="GET" action="/listings/new">
+        <button>Create New Listing</button>
+    </form>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+
+    <% for (let listing of alllisting) { %>
+        <a href="/listings/<%= listing._id %>" class="listing-link">
+        <div class="card col listing-card">
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem;">
+            <div class="card-image-overlay">
+
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+             <b><%=listing.title %></b> 
+              <br>
+             
+            </p>
+            </div>
+          </div>
+        </a>
+          <% } %>
+</div>
+
+
+
+
+    <!-- <% for (let listing of alllisting) { %>
+    <div class="card" style="width: 20rem;">
+        <img src="<%= listing.image %>" class="card-img-top" alt="...">
+        <div class="card-body">
+          <p class="card-text">
+          <%=listing.title %>
+          <br>
+  
+        </p>
+        </div>
+      </div>
+      <% } %> -->
+
+
+
+
+
+
+
+
+
+
+    <!-- Loop through all listings and display them -->
+    <ul>
+        <% for (let listing of alllisting) { %>
+            <li><a href="/listings/<%= listing._id %>"><%= listing.title %></a></li>
+        <% } %>
+    </ul>
+</body>
